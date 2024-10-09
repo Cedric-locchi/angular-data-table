@@ -16,6 +16,14 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
+    "paths": {
+      "dataTable": [
+        "./dist/data-table"
+      ],
+      "ozone": [
+        "./dist/ozone"
+      ]
+    },
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
