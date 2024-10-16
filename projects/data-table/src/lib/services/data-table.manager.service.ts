@@ -23,6 +23,14 @@ export class DataTableManagerService {
     });
   }
 
+  updateCLassList(event: any, callback: Function) {
+    const selector = `div.${event.currentTarget.classList[0]}`.toString();
+    const items = document.querySelectorAll(selector);
+    items.forEach((item: Element) => {
+      callback(item);
+    });
+  }
+
   private dataFromCol(data: dynamic, col: colDef): string {
     if (data === undefined || data === null) {
       return 'non renseigné';

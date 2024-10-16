@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {DataTableComponent} from '../../../data-table/src/lib/components';
 import data from './ressources/data.json';
 import {colDef, dynamic} from '../../../data-table/src/lib/core';
@@ -15,11 +15,10 @@ export class AppComponent {
 
   dataSources: dynamic[] = data;
   colDef: colDef[] = [
-    { field: 'name', headerName: 'Nom', isDate: false },
+    {headerName: 'Titre', field: 'title', isBold: true},
+    {headerName: 'Description', field: 'description'},
+    {headerName: 'Date de création', field: 'creationDate', isDate: true},
+    {headerName: 'Note', field: 'rating'},
   ];
-
-  constructor() {
-    console.log(data);
-  }
 
 }

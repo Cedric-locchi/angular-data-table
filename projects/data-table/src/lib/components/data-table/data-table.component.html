@@ -1,1 +1,34 @@
-<p>data-table works!</p>
+<div class="list border">
+
+  @if (displayResult()) {
+    <div class="list-header">
+      <h4>Résultats</h4>
+      <div class="data-count">
+        <span class="badge-count">{{ dataSources().length }}</span>
+      </div>
+    </div>
+  }
+
+  <div class="body">
+    @for (col of localColDef(); track col; let i = $index; let f = $first) {
+      <div class="col">
+        @for (item of dataTableManager.getDataFromCol(i, col); track $index) {
+          <div *ngIf="$first" class="col-header">
+            {{ col.headerName }}
+            <fa-icon [icon]="faSort" (click)="sortByColumn(col)"></fa-icon>
+          </div>
+          <div
+            contententeditable="true"
+            [class.odd]="$odd"
+            (mouseenter)="hoverLine($event)"
+            (mouseleave)="removeHoveredLine($event)"
+            class="col-item col-{{$index}}-{{componentId}}">
+            {{ item }}
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>
+
