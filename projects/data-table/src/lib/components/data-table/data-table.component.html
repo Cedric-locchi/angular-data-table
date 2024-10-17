@@ -1,13 +1,24 @@
-<div class="list border">
-
-  @if (displayResult()) {
-    <div class="list-header">
-      <h4>Résultats</h4>
-      <div class="data-count">
-        <span class="badge-count">{{ dataSources().length }}</span>
-      </div>
+@if (displayResult()) {
+  <div class="list-header">
+    <h4>Résultats</h4>
+    <div class="data-count">
+      <span class="badge-count">{{ dataSources().length }}</span>
     </div>
-  }
+  </div>
+}
+
+@if (displaySearchBar()) {
+  <div class="list-search">
+    <input
+      [formControl]="searchControl"
+      type="text"
+      class="form-control"
+      placeholder="Rechercher"
+    />
+  </div>
+}
+
+<div class="list" [class.border]="displayBorder()">
 
   <div class="body">
     @for (col of localColDef(); track col; let i = $index; let f = $first) {
@@ -31,4 +42,3 @@
   </div>
 
 </div>
-

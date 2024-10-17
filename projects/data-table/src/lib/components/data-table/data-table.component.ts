@@ -1,4 +1,15 @@
-import {Component, computed, effect, inject, input, InputSignal, OnInit, signal, WritableSignal} from '@angular/core';
+import {
+  Component,
+  computed,
+  effect, EventEmitter,
+  inject,
+  input,
+  InputSignal,
+  OnInit,
+  Output,
+  signal,
+  WritableSignal
+} from '@angular/core';
 import {colDef, dynamic} from '../../core';
 import {DataTableManagerService} from '../../services/data-table.manager.service';
 import {DateTime, Settings} from 'luxon';
@@ -6,6 +17,8 @@ import {JsonPipe, NgIf} from '@angular/common';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faSort} from '@fortawesome/free-solid-svg-icons';
 import {updateCLassList} from './service/data-table.utils';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {tap} from 'rxjs';
 
 @Component({
   selector: 'data-table',
@@ -13,7 +26,9 @@ import {updateCLassList} from './service/data-table.utils';
   imports: [
     JsonPipe,
     NgIf,
-    FaIconComponent
+    FaIconComponent,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.scss'
@@ -29,10 +44,16 @@ export class DataTableComponent implements OnInit {
 
   displayResult: InputSignal<boolean> = input(false);
   displayShadow: InputSignal<boolean> = input(false);
+  displayBorder: InputSignal<boolean> = input(false);
+  displaySearchBar: InputSignal<boolean> = input(false);
+
+  searchControl: FormControl = new FormControl('');
 
   localColDef = computed(() => this.colDef());
-
   sortDirection: { [key: string]: 'asc' | 'desc' } = {};
+
+  @Output()
+  searchControlValue: EventEmitter<string> = new EventEmitter<string>();
 
   readonly faSort = faSort;
   readonly componentId: string = Math.random().toString(36).substring(7);
@@ -61,6 +82,15 @@ export class DataTableComponent implements OnInit {
   ngOnInit() {
     Settings.defaultLocale = 'fr';
     this.dataTableManager.dataSources = this.dataSources();
+
+    this.searchControl.valueChanges
+      .pipe(
+        tap((value: string)=> {
+          this.searchControlValue.emit(value);
+        })
+      )
+      .subscribe()
+
   }
 
   private sortDataSource(field: string, direction: 'asc' | 'desc', col: colDef) {
