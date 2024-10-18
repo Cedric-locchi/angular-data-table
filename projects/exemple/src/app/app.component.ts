@@ -14,11 +14,16 @@ import {colDef, dynamic} from '../../../data-table/src/lib/core';
 export class AppComponent {
 
   dataSources: dynamic[] = data;
+
   colDef: colDef[] = [
-    {headerName: 'Titre', field: 'title', isBold: true},
-    {headerName: 'Description', field: 'description'},
-    {headerName: 'Date de création', field: 'creationDate', isDate: true},
-    {headerName: 'Note', field: 'rating'},
+    {headerName: 'Titre', field: 'title', isBold: true, isVisible: true},
+    {headerName: 'Description', field: 'description', isVisible: true},
+    {headerName: 'Date de création', field: 'creationDate', isDate: true, isVisible: false},
+    {headerName: 'Note', field: 'rating', isVisible: true},
   ];
+
+  search(event: string): void {
+    console.log(event);
+  }
 
 }

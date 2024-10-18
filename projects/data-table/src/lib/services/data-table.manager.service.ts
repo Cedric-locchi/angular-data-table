@@ -17,17 +17,9 @@ export class DataTableManagerService {
     return this._dataSources();
   }
 
-  getDataFromCol(index: number, col: colDef): string[] {
+  getDataFromCol(col: colDef): string[] {
     return this.dataSources.map(row => {
       return this.dataFromCol(row, col);
-    });
-  }
-
-  updateCLassList(event: any, callback: Function) {
-    const selector = `div.${event.currentTarget.classList[0]}`.toString();
-    const items = document.querySelectorAll(selector);
-    items.forEach((item: Element) => {
-      callback(item);
     });
   }
 

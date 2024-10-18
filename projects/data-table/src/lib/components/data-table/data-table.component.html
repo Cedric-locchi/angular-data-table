@@ -7,32 +7,57 @@
   </div>
 }
 
-@if (displaySearchBar()) {
-  <div class="list-search">
-    <input
-      [formControl]="searchControl"
-      type="text"
-      class="form-control"
-      placeholder="Rechercher"
-    />
-  </div>
-}
+
+<div class="list-search">
+
+  <input
+    [formControl]="searchControl"
+    type="text"
+    class="form-control"
+    placeholder="Rechercher"/>
+
+  <button (click)="displayColumnManager.set(!displayColumnManager())">
+    <fa-icon [icon]="faTableColumns"></fa-icon>
+    Colonnes
+
+    @if (displayColumnManager()) {
+      <div class="list-column-definition">
+
+        <ul>
+          @for (col of localColDef(); track col; let i = $index) {
+            <li [class.active]="col.isVisible" (click)="updateVisibility(col)">
+                {{ col.headerName }}
+                <fa-icon [icon]="faGripVertical"></fa-icon>
+            </li>
+          }
+        </ul>
+
+      </div>
+    }
+
+  </button>
+
+</div>
+
 
 <div class="list" [class.border]="displayBorder()">
 
   <div class="body">
-    @for (col of localColDef(); track col; let i = $index; let f = $first) {
+    @for (col of colDefVisible; track col; let i = $index; let f = $first) {
       <div class="col">
-        @for (item of dataTableManager.getDataFromCol(i, col); track $index) {
+        @for (item of dataTableManager.getDataFromCol(col); track $index) {
           <div *ngIf="$first" class="col-header">
-            {{ col.headerName }}
-            <fa-icon [icon]="faSort" (click)="sortByColumn(col)"></fa-icon>
+           <span>
+              {{ col.headerName }}
+             <fa-icon [icon]="faSort" (click)="sortByColumn(col)"></fa-icon>
+           </span>
           </div>
           <div
             contententeditable="true"
             [class.odd]="$odd"
             (mouseenter)="hoverLine($event)"
             (mouseleave)="removeHoveredLine($event)"
+            (click)="clicked(item, col, $index)"
             class="col-item col-{{$index}}-{{componentId}}">
             {{ item }}
           </div>
@@ -40,5 +65,6 @@
       </div>
     }
   </div>
+
 
 </div>

@@ -4,6 +4,7 @@ import {Type} from '@angular/core';
 export type colDef = {
   headerName: string;
   field: string;
+  isVisible?: boolean;
   isBold?: boolean;
   isDate?: boolean;
   isState?: boolean;
